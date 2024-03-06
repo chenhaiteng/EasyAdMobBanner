@@ -1,5 +1,5 @@
 //
-//  EasyADTestUnit.swift
+//  GoogleAdMobTestUnit.swift
 //  
 //
 //  Created by Chen Hai Teng on 3/6/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EasyADTestUnit {
+public enum GoogleAdMobTestUnit {
     static let banner = "ca-app-pub-3940256099942544/2934735716"
     static let adaptiveBanner = "ca-app-pub-3940256099942544/2435281174"
     static let appOpen = "ca-app-pub-3940256099942544/5662855259"

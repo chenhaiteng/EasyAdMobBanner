@@ -46,7 +46,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     private let adUnitID: String
     @State var adSize: CGSize = .zero
     
-    init(_ adUnitID: String = EasyADTestUnit.banner) {
+    init(_ adUnitID: String) {
         debugPrint("banner adUnit: \(adUnitID)")
         self.adUnitID = adUnitID
     }
@@ -132,7 +132,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
 
 struct AdSizeKey : PreferenceKey {
     
-    static func defaultSize() -> CGSize {
+    public static func defaultSize() -> CGSize {
         var adSize: GADAdSize
         switch UIDevice.current.userInterfaceIdiom {
         case .pad:
