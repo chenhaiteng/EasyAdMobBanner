@@ -12,7 +12,7 @@ import GoogleMobileAds
 
 
 fileprivate var _verbose: Bool = false
-fileprivate let _tag = "EasyAdMob"
+fileprivate let _tag = "[EasyAdMob] "
 // Prefix: EasyAdMob
 /// Delegate methods for receiving width update messages.
 protocol EasyAdMobBannerWidthDelegate: AnyObject {
@@ -85,7 +85,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         }
         DispatchQueue.main.async {
             if _verbose {
-                debugPrint(_tag + "\(#function) update ad size")
+                debugPrint(_tag + "\(#function) update ad size to \(bannerView.adSize.size)")
             }
             adSize = bannerView.adSize.size
             _ = preference(key: AdSizeKey.self, value: adSize)
