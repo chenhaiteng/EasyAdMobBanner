@@ -210,12 +210,16 @@ public struct EasyAdMobBanner : View {
     /// Create a google ad banner that adjust its size automatically by adSize
     /// - Parameters:
     ///   - ad_unit_id: The ad unit id that display on this banner
-    ///   - verbose: Works on debug mode only. Show debug messages with **EasyAdMob** tag
-    public init(_ ad_unit_id: String, verbose: Bool = false) {
+    public init(_ ad_unit_id: String) {
         self.ad_unit_id = ad_unit_id
-        _verbose = verbose
         if _verbose {
             debugPrint(_tag+"init banner with unit id \(ad_unit_id)")
         }
+    }
+    
+    /// Works on debug build only. Show debug messages with **EasyAdMob** tag
+    /// - Parameter isOn: turn on verbose, default is 'true'
+    public static func verbose(_ isOn: Bool = true) {
+        _verbose = isOn
     }
 }
