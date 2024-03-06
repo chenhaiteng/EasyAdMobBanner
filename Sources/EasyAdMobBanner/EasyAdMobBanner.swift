@@ -10,6 +10,9 @@ import UIKit
 import Combine
 import GoogleMobileAds
 
+
+fileprivate var _verbose: Bool = false
+fileprivate let _tag = "EasyAdMob"
 // Prefix: EasyAdMob
 /// Delegate methods for receiving width update messages.
 protocol EasyAdMobBannerWidthDelegate: AnyObject {
@@ -47,17 +50,25 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     @State var adSize: CGSize = .zero
     
     init(_ adUnitID: String) {
-        debugPrint("banner adUnit: \(adUnitID)")
+        if _verbose {
+            debugPrint(_tag+"Init UIViewControllerRepresentable with unit ID: \(adUnitID)")
+        }
         self.adUnitID = adUnitID
     }
     
     func makeUIViewController(context: Context) -> some UIViewController {
+        if _verbose {
+            debugPrint(_tag + "\(#function) called")
+        }
         let bannerViewController = EasyAdMobBannerViewController()
         bannerView.adUnitID = self.adUnitID
         bannerView.rootViewController = bannerViewController
         bannerViewController.view.addSubview(bannerView)
         bannerViewController.bannerWidthDelegate = context.coordinator
         bannerView.delegate = context.coordinator
+        if _verbose {
+            debugPrint(_tag + "\(#function) finish")
+        }
         return bannerViewController
     }
     
@@ -69,13 +80,25 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     }
     
     func updateAdSize() {
+        if _verbose {
+            debugPrint(_tag + "\(#function)")
+        }
         DispatchQueue.main.async {
+            if _verbose {
+                debugPrint(_tag + "\(#function) update ad size")
+            }
             adSize = bannerView.adSize.size
             _ = preference(key: AdSizeKey.self, value: adSize)
+            if _verbose {
+                debugPrint(_tag + "\(#function) trigger preference change")
+            }
         }
     }
     
     func loadAd(with width: CGFloat) {
+        if _verbose {
+            debugPrint(_tag + "\(#function)")
+        }
         bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width)
         bannerView.load(GADRequest())
     }
@@ -91,41 +114,61 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         }
         
         func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didAppear width: CGFloat) {
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
             parent.viewWidth = width
             parent.loadAd(with: width)
             parent.updateAdSize()
         }
         
         func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didUpdate width: CGFloat) {
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
             parent.viewWidth = width
         }
         
         func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
         
         func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
-            debugPrint("\(#function) called")
+            if _verbose {
+                debugPrint(_tag + "\(#function)")
+            }
         }
     }
 }
@@ -148,9 +191,10 @@ struct AdSizeKey : PreferenceKey {
     static var defaultValue: CGSize = defaultSize()
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        debugPrint("[adSize] nextValue: \(nextValue())")
         defaultValue = nextValue()
-        debugPrint("[adSize] update nextValue: \(defaultValue)")
+        if _verbose {
+            debugPrint(_tag+"Preference Key changed: \(defaultValue)")
+        }
     }
 }
 
@@ -163,7 +207,15 @@ public struct EasyAdMobBanner : View {
         }
     }
     
-    public init(_ ad_unit_id: String) {
+    /// Create a google ad banner that adjust its size automatically by adSize
+    /// - Parameters:
+    ///   - ad_unit_id: The ad unit id that display on this banner
+    ///   - verbose: Works on debug mode only. Show debug messages with **EasyAdMob** tag
+    public init(_ ad_unit_id: String, verbose: Bool = false) {
         self.ad_unit_id = ad_unit_id
+        _verbose = verbose
+        if _verbose {
+            debugPrint(_tag+"init banner with unit id \(ad_unit_id)")
+        }
     }
 }
