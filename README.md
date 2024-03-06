@@ -3,7 +3,8 @@
 EasyAdMobBanner is a SwiftUI wrapper for AdMob banner.
 It simply make AdMob banner adjust its frame by adSize automatically.
 
-If you think it's helpful, a coffee can help me work on it.
+If you think it's helpful, a coffee can help me keep work on it.
+
 <a href="https://www.buymeacoffee.com/chenhaiteng"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=chenhaiteng&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff" /></a>
 
 ## Installation:
@@ -16,7 +17,7 @@ If you still need CocoaPods version that can support **AdMob mediation**, you ca
 
 ### Prerequisite:
 Please ensure that you already setup Google Mobile Ads correctly.
-Refer to [Get Started](https://developers.google.com/admob/ios/quick-start) to setup Google Mobile Ads.
+Refer to [Get Started](https://developers.google.com/admob/ios/quick-start) for more detail.
 
 ### Add to Xcode(To use this package in your application):
 
@@ -48,7 +49,7 @@ targets: [
 
 ## Use EasyAdMobBanner:
 
-Just put the banner to where your want place. It's not necessary to specify the width and height.
+Just put the banner to where your want. No need to specify the width and height.
 
 ```swift
 
