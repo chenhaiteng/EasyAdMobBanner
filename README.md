@@ -28,7 +28,7 @@ It's can also apply Rules > Branch : main to access latest code.
 
 > Note: It might need to link EasyAdMobBanner to your target maunally.
 > 1. Open *Project Editor* by tap on root of project navigator
-> 2. Choose the target you want to use Rings.
+> 2. Choose the target you want to use EasyAdMobBanner.
 > 3. Choose **Build Phases**, and expand **Link Binary With Libraries**
 > 4. Tap on **+** button, and choose EasyAdMobBanner to add it.
 
@@ -44,4 +44,22 @@ targets: [
         name: "MyPackage",
         dependencies: ["EasyAdMobBanner"]),
 ]
+```
+
+## Use EasyAdMobBanner:
+
+Just put the banner to where your want place. It's not necessary to specify the width and height.
+
+```swift
+
+struct MyView: View {
+    var body: some View {
+        VStack {
+            // Other contents
+            Text("MyView")
+            EasyAdMobBanner(ad_unit_id)
+        }
+    }
+}
+
 ```
