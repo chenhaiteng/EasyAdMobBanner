@@ -11,8 +11,7 @@ import Combine
 import GoogleMobileAds
 
 // Prefix: EasyAdMob
-// Delegate methods for receiving width update messages.
-
+/// Delegate methods for receiving width update messages.
 protocol EasyAdMobBannerWidthDelegate: AnyObject {
     func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didAppear width: CGFloat)
     func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didUpdate width: CGFloat)
@@ -45,12 +44,11 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     @State private var viewWidth: CGFloat = .zero
     private let bannerView = GADBannerView()
     private let adUnitID: String
-    @Binding var adSize: CGSize
+    @State var adSize: CGSize = .zero
     
-    init(_ adUnitID: String = EasyADTestUnit.banner, adSize: Binding<CGSize>) {
+    init(_ adUnitID: String = EasyADTestUnit.banner) {
         debugPrint("banner adUnit: \(adUnitID)")
         self.adUnitID = adUnitID
-        _adSize = adSize
     }
     
     func makeUIViewController(context: Context) -> some UIViewController {
@@ -67,9 +65,13 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         guard viewWidth != .zero else { return }
         // Request a banner ad with the updated viewWidth.
         loadAd(with: viewWidth)
+        updateAdSize()
+    }
+    
+    func updateAdSize() {
         DispatchQueue.main.async {
             adSize = bannerView.adSize.size
-            debugPrint("[adSize] update: \(bannerView.adSize.size)")
+            _ = preference(key: AdSizeKey.self, value: adSize)
         }
     }
     
@@ -91,7 +93,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didAppear width: CGFloat) {
             parent.viewWidth = width
             parent.loadAd(with: width)
-            parent.adSize = parent.bannerView.adSize.size
+            parent.updateAdSize()
         }
         
         func bannerViewController(_ bannerViewController: EasyAdMobBannerViewController, didUpdate width: CGFloat) {
@@ -152,32 +154,11 @@ struct AdSizeKey : PreferenceKey {
     }
 }
 
-struct EasyAdMobBannerPreferenceView : View, Animatable {
-    @State var adSize: CGSize = AdSizeKey.defaultSize()
-    
-    let ad_unit_id: String
-    var body: some View {
-        EasyBannerRepresentable(ad_unit_id, adSize: $adSize).preference(key: AdSizeKey.self, value: adSize)
-    }
-    
-    init(_ ad_unit_id: String) {
-        switch UIDevice.current.userInterfaceIdiom {
-        case .pad:
-            self.adSize = GADAdSizeFullBanner.size
-        case .phone:
-            self.adSize = GADAdSizeBanner.size
-        default:
-            self.adSize = GADAdSizeBanner.size
-        }
-        self.ad_unit_id = ad_unit_id
-    }
-}
-
 public struct EasyAdMobBanner : View {
     @State private var size: CGSize = .zero
     let ad_unit_id: String
     public var body: some View {
-        EasyAdMobBannerPreferenceView(ad_unit_id).frame(width: size.width, height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
+        EasyBannerRepresentable(ad_unit_id).frame(width: size.width, height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
             size = newSize
         }
     }
