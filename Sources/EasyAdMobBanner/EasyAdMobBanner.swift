@@ -169,8 +169,10 @@ public struct EasyAdMobBanner : View {
     @State private var size: CGSize = .zero
     let ad_unit_id: String
     public var body: some View {
-        EasyBannerRepresentable(ad_unit_id).frame(width: size.width, height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
-            size = newSize
+        VStack(alignment:.center) {
+            EasyBannerRepresentable(ad_unit_id).frame(height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
+                size = newSize
+            }
         }
     }
     
