@@ -1,5 +1,11 @@
 # EasyAdMobBanner
 
+An easy use AdMob banner wrapper on SwiftUI
+
+[![Version](https://img.shields.io/cocoapods/v/EasyAdMobBanner.svg?style=flat)](https://cocoapods.org/pods/EasyAdMobBanner)
+[![License](https://img.shields.io/cocoapods/l/EasyAdMobBanner.svg?style=flat)](https://cocoapods.org/pods/EasyAdMobBanner)
+[![Platform](https://img.shields.io/cocoapods/p/EasyAdMobBanner.svg?style=flat)](https://cocoapods.org/pods/EasyAdMobBanner)
+
 EasyAdMobBanner is a SwiftUI wrapper for AdMob banner.
 It simply make AdMob banner adjust its frame by adSize automatically.
 
@@ -9,17 +15,27 @@ If you think it's helpful, a coffee can help me keep work on it.
 
 ## Installation:
 
+### CocoaPods
+
+EasyAdMobBanner is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'EasyAdMobBanner'
+```
+
+### Swift Package Manager
 The project is published with Swift Package Manager, and it depends on Google [Mobile Ads SDK(Swift Package Manager Version)](https://developers.google.com/admob/ios/quick-start#spm).
 
 To avoid unexpected dependency issue, if your already installed [Mobile Ads SDK(CocoaPods)](https://developers.google.com/admob/ios/quick-start#cocoapods) for your project, it suggests to remove it, or use SPM version instead of.
 
 If you still need CocoaPods version that can support **AdMob mediation**, you can install EasyAdMobBanner by duplicating the source code.
 
-### Prerequisite:
+#### Prerequisite:
 Please ensure that you already setup Google Mobile Ads correctly.
 Refer to [Get Started](https://developers.google.com/admob/ios/quick-start) for more detail.
 
-### Add to Xcode(To use this package in your application):
+#### Add to Xcode(To use this package in your application):
 
 1. File > Swift Packages > Add Package Dependency...
 2. Choose Project you want to add EasyAdMobBanner
@@ -33,7 +49,7 @@ It's can also apply Rules > Branch : main to access latest code.
 > 3. Choose **Build Phases**, and expand **Link Binary With Libraries**
 > 4. Tap on **+** button, and choose EasyAdMobBanner to add it.
 
-### Add to SPM package(To use this package in your library/framework):
+#### Add to SPM package(To use this package in your library/framework):
 ```swift
 dependencies: [
     .package(url: "https://github.com/chenhaiteng/EasyAdMobBanner.git", from: "1.0.0")
