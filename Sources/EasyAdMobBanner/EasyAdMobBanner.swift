@@ -172,8 +172,10 @@ public struct EasyAdMobBanner : View {
     @State private var size: CGSize = .zero
     let ad_unit_id: String
     public var body: some View {
-        VStack(alignment:.center) {
-            EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(width:size.width, height: size.height)
+        GeometryReader { geo in
+            VStack(alignment:.center) {
+                EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(width:geo.size.width, height: size.height)
+            }
         }
     }
     
