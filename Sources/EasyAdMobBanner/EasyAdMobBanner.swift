@@ -174,8 +174,8 @@ public struct EasyAdMobBanner : View {
     public var body: some View {
         GeometryReader { geo in
             VStack(alignment:.center) {
-                EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(width:geo.size.width, height: size.height)
-            }
+                EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(height: size.height)
+            }.frame(width: geo.size.width, height: size.height)
         }
     }
     
