@@ -81,6 +81,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         DispatchQueue.main.async {
             log("\(#function): update ad size to \(bannerView.adSize.size)")
             adSize = bannerView.adSize.size
+            bannerView.sizeThatFits(adSize)
             estSize = adSize
 //            _ = preference(key: AdSizeKey.self, value: adSize)
 //            log("\(#function): trigger preference change")
