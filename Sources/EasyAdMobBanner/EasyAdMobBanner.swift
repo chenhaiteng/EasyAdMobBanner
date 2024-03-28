@@ -1,6 +1,6 @@
 //
 //  EasyAdMobBanner.swift
-//
+//  EasyAdMobBanner
 //
 //  Created by Chen Hai Teng on 3/6/24.
 //
@@ -59,7 +59,7 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         let bannerViewController = EasyAdMobBannerViewController()
         bannerView.adUnitID = self.adUnitID
         bannerView.rootViewController = bannerViewController
-        bannerViewController.view.addSubview(bannerView)
+        bannerViewController.view = bannerView
         bannerViewController.bannerWidthDelegate = context.coordinator
         bannerView.delegate = context.coordinator
         log("\(#function) end")
@@ -79,8 +79,6 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         DispatchQueue.main.async {
             log("\(#function): update ad size to \(bannerView.adSize.size)")
             adSize = bannerView.adSize.size
-            _ = preference(key: AdSizeKey.self, value: adSize)
-            log("\(#function): trigger preference change")
         }
     }
     
@@ -142,36 +140,26 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     }
 }
 
-struct AdSizeKey : PreferenceKey {
-    
-    public static func defaultSize() -> CGSize {
-        var adSize: GADAdSize
-        switch UIDevice.current.userInterfaceIdiom {
+fileprivate extension UIDevice {
+    var standardAdSize: CGSize {
+        switch userInterfaceIdiom {
         case .pad:
-            adSize = GADAdSizeFullBanner
+            return GADAdSizeFullBanner.size
         case .phone:
-            adSize = GADAdSizeBanner
+            return GADAdSizeBanner.size
         default:
-            adSize = GADAdSizeBanner
+            return GADAdSizeFullBanner.size
         }
-        return adSize.size
-    }
-    
-    static var defaultValue: CGSize = defaultSize()
-    
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        defaultValue = nextValue()
-        log("Preference Key changed: \(defaultValue)")
     }
 }
 
 public struct EasyAdMobBanner : View {
-    @State private var size: CGSize = .zero
     let ad_unit_id: String
+    let height = UIDevice.current.standardAdSize.height
     public var body: some View {
-        EasyBannerRepresentable(ad_unit_id).frame(width: size.width, height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
-            size = newSize
-        }
+        GeometryReader { geo in
+            EasyBannerRepresentable(ad_unit_id).frame(width: geo.size.width, height: height)
+        }.frame(height: height)
     }
     
     /// Create a google ad banner that adjust its size automatically by adSize

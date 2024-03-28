@@ -1,6 +1,6 @@
 //
 //  DebugLog.swift
-//
+//  EasyAdMobBanner
 //
 //  Created by Chen Hai Teng on 3/28/24.
 //
