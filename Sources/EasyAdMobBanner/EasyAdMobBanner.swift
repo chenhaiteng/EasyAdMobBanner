@@ -212,14 +212,21 @@ public struct EasyAdMobBanner : View {
     ///   - ad_unit_id: The ad unit id that display on this banner
     public init(_ ad_unit_id: String) {
         self.ad_unit_id = ad_unit_id
-        if _verbose {
-            debugPrint(_tag+"init banner with unit id \(ad_unit_id)")
-        }
+        verbosing("init banner with unit id \(ad_unit_id)")
+//        if _verbose {
+//            debugPrint(_tag+"init banner with unit id \(ad_unit_id)")
+//        }
     }
     
     /// Works on debug build only. Show debug messages with **EasyAdMob** tag
     /// - Parameter isOn: turn on verbose, default is 'true'
     public static func verbose(_ isOn: Bool = true) {
         _verbose = isOn
+    }
+    
+    private func verbosing(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+        if _verbose {
+            debugPrint(_tag, items, separator: separator, terminator: terminator)
+        }
     }
 }
