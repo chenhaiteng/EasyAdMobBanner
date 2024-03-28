@@ -173,10 +173,11 @@ public struct EasyAdMobBanner : View {
     let ad_unit_id: String
     public var body: some View {
         GeometryReader { geo in
+            let _ = log("geo size: \(geo.size)")
             VStack(alignment:.center) {
-                EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(height: size.height)
-            }.frame(width: geo.size.width, height: size.height)
-        }
+                EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(width: geo.size.width, height: size.height)
+            }
+        }.frame(height: size.height)
     }
     
     /// Create a google ad banner that adjust its size automatically by adSize
