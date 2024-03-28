@@ -170,9 +170,10 @@ public struct EasyAdMobBanner : View {
     let ad_unit_id: String
     public var body: some View {
         VStack(alignment:.center) {
-            EasyBannerRepresentable(ad_unit_id).frame(height: size.height).onPreferenceChange(AdSizeKey.self) { newSize in
-                size = newSize
-            }
+            EasyBannerRepresentable(ad_unit_id).frame(height: size.height)
+        }.onPreferenceChange(AdSizeKey.self) { newSize in
+            log("receive ad size change")
+            size = newSize
         }
     }
     
