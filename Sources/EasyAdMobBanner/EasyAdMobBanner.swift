@@ -48,10 +48,12 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     private let bannerView = GADBannerView()
     private let adUnitID: String
     @State var adSize: CGSize = .zero
+    @Binding var estSize: CGSize
     
-    init(_ adUnitID: String) {
+    init(_ adUnitID: String, estSize: Binding<CGSize>) {
         log("\(#function): id: \(adUnitID)")
         self.adUnitID = adUnitID
+        self._estSize = estSize
     }
     
     func makeUIViewController(context: Context) -> some UIViewController {
@@ -79,8 +81,9 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
         DispatchQueue.main.async {
             log("\(#function): update ad size to \(bannerView.adSize.size)")
             adSize = bannerView.adSize.size
-            _ = preference(key: AdSizeKey.self, value: adSize)
-            log("\(#function): trigger preference change")
+            estSize = adSize
+//            _ = preference(key: AdSizeKey.self, value: adSize)
+//            log("\(#function): trigger preference change")
         }
     }
     
@@ -170,10 +173,7 @@ public struct EasyAdMobBanner : View {
     let ad_unit_id: String
     public var body: some View {
         VStack(alignment:.center) {
-            EasyBannerRepresentable(ad_unit_id).frame(height: size.height)
-        }.onPreferenceChange(AdSizeKey.self) { newSize in
-            log("receive ad size change")
-            size = newSize
+            EasyBannerRepresentable(ad_unit_id, estSize: $size).frame(width:size.width, height: size.height)
         }
     }
     
