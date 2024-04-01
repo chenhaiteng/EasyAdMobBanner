@@ -1,5 +1,4 @@
 # EasyAdMobBanner
-
 An easy use AdMob banner wrapper on SwiftUI
 
 [![Version](https://img.shields.io/cocoapods/v/EasyAdMobBanner.svg?style=flat)](https://cocoapods.org/pods/EasyAdMobBanner)
