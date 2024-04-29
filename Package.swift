@@ -13,7 +13,7 @@ let package = Package(
             targets: ["EasyAdMobBanner"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", .upToNextMajor(from: "11.0.1")),
+        .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", from: "11.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
