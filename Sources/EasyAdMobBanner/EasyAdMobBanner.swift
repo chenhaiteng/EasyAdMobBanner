@@ -43,6 +43,7 @@ class EasyAdMobBannerViewController: UIViewController {
 }
 
 struct EasyBannerRepresentable: UIViewControllerRepresentable {
+    @Environment(\.easyAdMode) private var adMode
     
     @State private var viewWidth: CGFloat = .zero
     private let bannerView = GADBannerView()
@@ -84,8 +85,10 @@ struct EasyBannerRepresentable: UIViewControllerRepresentable {
     
     func loadAd(with width: CGFloat) {
         log("\(#function): width: \(width)")
-        bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width)
-        bannerView.load(GADRequest())
+        if adMode == .normal {
+            bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width)
+            bannerView.load(GADRequest())
+        }
     }
     
     func makeCoordinator() -> Coordinator {
